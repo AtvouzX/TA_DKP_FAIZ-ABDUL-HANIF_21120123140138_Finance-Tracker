@@ -1,5 +1,5 @@
 module com.atvouzx.financetracker {
-    
+
     requires MaterialFX;
     requires java.sql;
 
