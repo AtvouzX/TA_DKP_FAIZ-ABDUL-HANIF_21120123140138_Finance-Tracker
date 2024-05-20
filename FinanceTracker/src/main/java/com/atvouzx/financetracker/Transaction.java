@@ -57,4 +57,5 @@ public class Transaction {
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
     }
+
 }

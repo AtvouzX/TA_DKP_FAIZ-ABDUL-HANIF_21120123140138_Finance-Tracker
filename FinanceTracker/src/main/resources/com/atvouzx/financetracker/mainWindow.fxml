@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.atvouzx.financetracker.Controller.MainWindowController" />
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.atvouzx.financetracker.Controller.MainWindowController">
+    <left>
+        <VBox>
+            <Label fx:id="dashboardLabel" text="Dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 10; -fx-cursor: hand;"/>
+            <Label fx:id="transactionsLabel" text="Transactions" onMouseClicked="#loadTransactions" style="-fx-padding: 10; -fx-cursor: hand;"/>
+            <Label fx:id="reportsLabel" text="Reports" style="-fx-padding: 10; -fx-cursor: hand;"/>
+            <Label fx:id="settingsLabel" text="Settings" style="-fx-padding: 10; -fx-cursor: hand;"/>
+        </VBox>
+    </left>
+    <center>
+        <VBox fx:id="contentArea" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

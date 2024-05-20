@@ -1,99 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
-
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atvouzx.financetracker.Controller.TransactionsController">
-    <children>
-        <!-- Form to add new transaction -->
-        <HBox spacing="10.0">
-            <children>
-                <Label text="Amount:" />
-                <TextField fx:id="amountField" />
-                <Label text="Category:" />
-                <MFXComboBox fx:id="categoryComboBox" />
-            </children>
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-        </HBox>
-        <HBox spacing="10.0">
-            <children>
-                <Label text="Notes:" />
-                <TextArea fx:id="notesTextArea" prefHeight="100.0" prefWidth="300.0" />
-                <VBox spacing="10.0">
-                    <children>
-                        <HBox spacing="10.0">
-                            <children>
-                                <Label text="Date:" />
-                                <DatePicker fx:id="datePicker" />
-                            </children>
-                        </HBox>
-                        <HBox spacing="10.0">
-                            <children>
-                                <Label text="Wallet:" />
-                                <MFXComboBox fx:id="walletComboBox" />
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
-            </children>
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-        </HBox>
-        <Button mnemonicParsing="false" onAction="#saveTransaction" text="Save Transaction" />
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-        <!-- Filters for transactions -->
-        <HBox spacing="10.0" alignment="CENTER">
-            <children>
-                <Label text="Filter by Category:" />
-                <MFXComboBox fx:id="filterCategoryComboBox" />
-                <Label text="Filter by Wallet:" />
-                <MFXComboBox fx:id="filterWalletComboBox" />
-                <Label text="Search by Notes:" />
-                <TextField fx:id="filterNotesField" />
-                <Button mnemonicParsing="false" onAction="#applyFilters" text="Apply Filters" />
-                <Button mnemonicParsing="false" onAction="#clearFilters" text="Clear Filters" />
-            </children>
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-        </HBox>
+<VBox prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atvouzx.financetracker.Controller.TransactionsController">
+    <children>
+      <VBox style="-fx-background-color: #FFFFFF; -fx-border-radius: 20px;">
+         <children>
+            <HBox prefHeight="100.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="415.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 20px;">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <MFXTextField fx:id="amountField" floatMode="BORDER" floatingText="Biaya" prefHeight="40.0" prefWidth="200.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </MFXTextField>
+                              <MFXFilterComboBox fx:id="categoryComboBox" floatMode="BORDER" floatingText="Pilih Kategori" prefHeight="40.0" prefWidth="200.0">
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </MFXFilterComboBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <MFXDatePicker fx:id="datePicker" floatMode="BORDER" floatingText="Tanggal Transaksi" prefHeight="40.0" prefWidth="200.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </MFXDatePicker>
+                              <MFXFilterComboBox fx:id="walletComboBox" floatMode="BORDER" floatingText="Pilih Dompet" prefHeight="40.0" prefWidth="200.0">
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </MFXFilterComboBox>
+                           </children>
+                        </HBox>
+                        <MFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#saveTransaction" prefHeight="40.0" prefWidth="80.0" rippleColor="WHITE" style="-fx-background-color: #7a0ed9; -fx-text-fill: #FFFFFF;" text="SIMPAN" textFill="#f8f9fa">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+                      <TextArea fx:id="notesTextArea" prefHeight="100.0" prefWidth="300.0" promptText="Tulis Catatan" stylesheets="@styles.css">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="textarea" />
+                        <String fx:value="input" />
+                     </styleClass>
+                  </TextArea>
+               </children>
+            </HBox>
+      
+                          <!-- Filters for transactions -->
+              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <children>
+                      <Label text="Filter berdasarkan:" />
+                  <MFXFilterComboBox fx:id="filterCategoryComboBox" floatMode="BORDER" floatingText="Kategori" prefHeight="40.0" />
+                  <MFXFilterComboBox fx:id="filterWalletComboBox" floatMode="BORDER" floatingText="Dompet" prefHeight="40.0" />
+                  <MFXTextField fx:id="filterNotesField" floatMode="BORDER" floatingText="Cari catatan" prefWidth="150.0" />
+                  <MFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#applyFilters" prefHeight="40.0" prefWidth="80.0" rippleColor="WHITE" style="-fx-background-color: #7a0ed9; -fx-text-fill: #FFFFFF;" text="Terapkan" textFill="#f8f9fa">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#clearFilters" prefHeight="40.0" prefWidth="80.0" rippleColor="WHITE" style="-fx-background-color: #7a0ed9; -fx-text-fill: #FFFFFF;" text="Hapus" textFill="#f8f9fa">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </MFXButton>
+                  </children>
+                  <padding>
+                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </padding>
+              </HBox>
+         </children>
+      </VBox>
 
         <!-- Table to display transactions -->
         <TableView fx:id="transactionsTable">
             <columns>
                 <TableColumn fx:id="amountColumn" text="Amount">
                     <cellValueFactory>
-                        <PropertyValueFactory property="amount"/>
+                        <PropertyValueFactory property="amount" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="categoryColumn" text="Category">
                     <cellValueFactory>
-                        <PropertyValueFactory property="category"/>
+                        <PropertyValueFactory property="category" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="notesColumn" text="Notes">
                     <cellValueFactory>
-                        <PropertyValueFactory property="notes"/>
+                        <PropertyValueFactory property="notes" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="dateColumn" text="Date">
                     <cellValueFactory>
-                        <PropertyValueFactory property="date"/>
+                        <PropertyValueFactory property="date" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="walletColumn" text="Wallet">
                     <cellValueFactory>
-                        <PropertyValueFactory property="walletName"/>
+                        <PropertyValueFactory property="walletName" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
+      <MFXPaginatedTableView fx:id="paginated" />
     </children>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

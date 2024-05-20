@@ -3,12 +3,18 @@ package com.atvouzx.financetracker.Controller;
 import com.atvouzx.financetracker.DatabaseManager;
 import com.atvouzx.financetracker.Transaction;
 import com.atvouzx.financetracker.Wallet;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.*;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,24 +22,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TransactionsController {
 
     @FXML
-    private TextField amountField;
+    private MFXPaginatedTableView<Transaction> paginated;
+    @FXML
+    private MFXTextField amountField;
 
     @FXML
-    private MFXComboBox<String> categoryComboBox;
+    private MFXFilterComboBox<String> categoryComboBox;
 
     @FXML
     private TextArea notesTextArea;
 
     @FXML
-    private DatePicker datePicker;
+    private MFXDatePicker datePicker;
 
     @FXML
-    private MFXComboBox<Wallet> walletComboBox;
+    private MFXFilterComboBox<Wallet> walletComboBox;
 
     @FXML
     private TableView<Transaction> transactionsTable;
@@ -54,13 +63,13 @@ public class TransactionsController {
     private TableColumn<Transaction, String> walletColumn;
 
     @FXML
-    private MFXComboBox<String> filterCategoryComboBox;
+    private MFXFilterComboBox<String> filterCategoryComboBox;
 
     @FXML
-    private MFXComboBox<Wallet> filterWalletComboBox;
+    private MFXFilterComboBox<Wallet> filterWalletComboBox;
 
     @FXML
-    private TextField filterNotesField;
+    private MFXTextField filterNotesField;
 
     private List<Wallet> wallets;
     private ObservableList<Transaction> transactionList;
@@ -68,9 +77,9 @@ public class TransactionsController {
     @FXML
     private void initialize() {
         // Initialize category and wallet combo boxes
-        categoryComboBox.getItems().addAll("Food", "Transportation", "Entertainment", "Utilities", "Other");
-        filterCategoryComboBox.getItems().addAll("All", "Food", "Transportation", "Entertainment", "Utilities", "Other");
-        filterCategoryComboBox.setValue("All");
+        categoryComboBox.getItems().addAll("Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
+        filterCategoryComboBox.getItems().addAll("Semua", "Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
+        filterCategoryComboBox.setValue("Semua");
 
         wallets = new ArrayList<>();
         wallets.add(new Wallet(1, "Cash", 1000.0));
@@ -87,9 +96,10 @@ public class TransactionsController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         walletColumn.setCellValueFactory(new PropertyValueFactory<>("wallet"));
 
-
+        setupPaginated();
         // Load transactions from database
         loadTransactionsFromDatabase();
+
     }
 
     @FXML
@@ -196,4 +206,15 @@ public class TransactionsController {
         datePicker.setValue(null);
         walletComboBox.setValue(null);
     }
+
+    private void setupPaginated() {
+        MFXTableColumn<Transaction> Amount = new MFXTableColumn<>("Amount", false, Comparator.comparing(Transaction::getAmount));
+
+        Amount.setRowCellFactory(transaction -> new MFXTableRowCell<>(Transaction::getAmount));
+
+        paginated.getTableColumns().addAll(Amount);
+        paginated.setItems(transactionList);
+
+    }
 }
+
