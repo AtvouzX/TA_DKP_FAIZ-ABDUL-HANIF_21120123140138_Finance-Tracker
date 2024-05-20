@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 20;">
-    <Label text="Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
-    <Label text="Welcome to the Financetracker Dashboard!" style="-fx-font-size: 16px;" />
-    <!-- Add more dashboard components here -->
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atvouzx.financetracker.Controller.DashboardController">
+    <children>
+        <Label text="Wallets" />
+        <VBox fx:id="walletsContainer" spacing="10.0">
+            <padding>
+                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+            </padding>
+        </VBox>
+    </children>
 </VBox>

@@ -3,7 +3,6 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
@@ -52,6 +51,7 @@
                               </MFXFilterComboBox>
                            </children>
                         </HBox>
+                        <Label fx:id="walletBalanceLabel" />
                         <MFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#saveTransaction" prefHeight="40.0" prefWidth="80.0" rippleColor="WHITE" style="-fx-background-color: #7a0ed9; -fx-text-fill: #FFFFFF;" text="SIMPAN" textFill="#f8f9fa">
                            <VBox.margin>
                               <Insets left="5.0" top="5.0" />
@@ -100,36 +100,35 @@
       </VBox>
 
         <!-- Table to display transactions -->
-        <TableView fx:id="transactionsTable">
+        <TableView fx:id="transactionsTable" stylesheets="@styles.css">
             <columns>
-                <TableColumn fx:id="amountColumn" text="Amount">
+                <TableColumn fx:id="amountColumn" sortable="false" text="Amount">
                     <cellValueFactory>
                         <PropertyValueFactory property="amount" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="categoryColumn" text="Category">
+                <TableColumn fx:id="categoryColumn" sortable="false" text="Category">
                     <cellValueFactory>
                         <PropertyValueFactory property="category" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="notesColumn" text="Notes">
+                <TableColumn fx:id="notesColumn" sortable="false" text="Notes">
                     <cellValueFactory>
                         <PropertyValueFactory property="notes" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="dateColumn" text="Date">
+                <TableColumn fx:id="dateColumn" sortable="false" text="Date">
                     <cellValueFactory>
                         <PropertyValueFactory property="date" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="walletColumn" text="Wallet">
+                <TableColumn fx:id="walletColumn" sortable="false" text="Wallet">
                     <cellValueFactory>
                         <PropertyValueFactory property="walletName" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
-      <MFXPaginatedTableView fx:id="paginated" />
     </children>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

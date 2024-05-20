@@ -5,16 +5,13 @@ import com.atvouzx.financetracker.Transaction;
 import com.atvouzx.financetracker.Wallet;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,8 +24,6 @@ import java.util.List;
 
 public class TransactionsController {
 
-    @FXML
-    private MFXPaginatedTableView<Transaction> paginated;
     @FXML
     private MFXTextField amountField;
 
@@ -77,17 +72,12 @@ public class TransactionsController {
     @FXML
     private void initialize() {
         // Initialize category and wallet combo boxes
-        categoryComboBox.getItems().addAll("Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
-        filterCategoryComboBox.getItems().addAll("Semua", "Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
+        categoryComboBox.getItems().addAll("Pendapatan", "Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
+        filterCategoryComboBox.getItems().addAll("Semua", "Pendapatan", "Makanan", "Transportasi", "Hiburan", "Utilitas", "Lainnya");
         filterCategoryComboBox.setValue("Semua");
 
-        wallets = new ArrayList<>();
-        wallets.add(new Wallet(1, "Cash", 1000.0));
-        wallets.add(new Wallet(2, "Bank Account", 5000.0));
+        List<Wallet> wallets = DatabaseManager.getAllWallets();
         walletComboBox.getItems().addAll(wallets);
-        filterWalletComboBox.getItems().addAll(wallets);
-        filterWalletComboBox.getItems().add(0, new Wallet(0, "All", 0));
-        filterWalletComboBox.setValue(filterWalletComboBox.getItems().get(0));
 
         // Initialize table columns
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -96,7 +86,6 @@ public class TransactionsController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         walletColumn.setCellValueFactory(new PropertyValueFactory<>("wallet"));
 
-        setupPaginated();
         // Load transactions from database
         loadTransactionsFromDatabase();
 
@@ -104,11 +93,39 @@ public class TransactionsController {
 
     @FXML
     private void saveTransaction() {
-        double amount = Double.parseDouble(amountField.getText());
+        String amountText = amountField.getText();
         String category = categoryComboBox.getValue();
         String notes = notesTextArea.getText();
         LocalDate date = datePicker.getValue();
         Wallet wallet = walletComboBox.getValue();
+
+        if (amountField.getText().isEmpty() || categoryComboBox.getValue() == null ||
+                datePicker.getValue() == null || walletComboBox.getValue() == null) {
+            showError("Silahkan isi semua bagian");
+            return;
+        }
+
+        double amount;
+        try {
+            amount = Double.parseDouble(amountText);
+        } catch (NumberFormatException e) {
+            showError("Biaya harus berupa angka");
+            return;
+        }
+
+
+
+        // Periksa tipe kategori (income/expense) dan perbarui saldo dompet
+        /*String categoryType = getCategoryType(category);
+        if ("expense".equalsIgnoreCase(categoryType)) {
+            amount = -amount;
+        }*/
+        if (category.equals("Income")) {
+            wallet.updateBalance(wallet.getBalance() + amount);
+        } else {
+            wallet.updateBalance(wallet.getBalance() - amount);
+        }
+        updateWalletBalanceInDatabase(wallet);
 
         // Create a new Transaction object
         Transaction transaction = new Transaction(amount, category, notes, date, wallet);
@@ -116,12 +133,33 @@ public class TransactionsController {
         // Save the transaction to the database
         saveTransactionToDatabase(transaction);
 
+        // Perbarui saldo dompet
+        wallet.updateBalance(amount);
+        updateWalletBalanceInDatabase(wallet);
+
         // Reload transactions from database
         loadTransactionsFromDatabase();
 
         // Clear the form after saving the transaction
         clearForm();
+
     }
+
+    private String getCategoryType(String category) {
+        String query = "SELECT type FROM categories WHERE name = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, category);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "expense"; // Default to expense if not found
+    }
+
 
     private void saveTransactionToDatabase(Transaction transaction) {
         String query = "INSERT INTO transactions (amount, category, notes, date, wallet_id) VALUES (?, ?, ?, ?, ?)";
@@ -134,6 +172,21 @@ public class TransactionsController {
             statement.setString(3, transaction.getNotes());
             statement.setDate(4, java.sql.Date.valueOf(transaction.getDate()));
             statement.setInt(5, transaction.getWallet().getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateWalletBalanceInDatabase(Wallet wallet) {
+        String query = "UPDATE wallets SET balance = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setDouble(1, wallet.getBalance());
+            statement.setInt(2, wallet.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -207,14 +260,16 @@ public class TransactionsController {
         walletComboBox.setValue(null);
     }
 
-    private void setupPaginated() {
-        MFXTableColumn<Transaction> Amount = new MFXTableColumn<>("Amount", false, Comparator.comparing(Transaction::getAmount));
-
-        Amount.setRowCellFactory(transaction -> new MFXTableRowCell<>(Transaction::getAmount));
-
-        paginated.getTableColumns().addAll(Amount);
-        paginated.setItems(transactionList);
-
+    private void showError(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
+
+
 }
 

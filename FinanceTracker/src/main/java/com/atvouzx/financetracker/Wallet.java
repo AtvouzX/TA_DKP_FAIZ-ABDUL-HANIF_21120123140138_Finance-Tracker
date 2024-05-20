@@ -23,6 +23,10 @@ public class Wallet {
         return balance;
     }
 
+    public void updateBalance(double amount) {
+        this.balance += amount;
+    }
+
     @Override
     public String toString() {
         return name; // This is important for displaying in ComboBox

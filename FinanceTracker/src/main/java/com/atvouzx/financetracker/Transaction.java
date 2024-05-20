@@ -9,6 +9,7 @@ public class Transaction {
     private LocalDate date;
     private Wallet wallet;
 
+    // Constructor, getters, and setters
     public Transaction(double amount, String category, String notes, LocalDate date, Wallet wallet) {
         this.amount = amount;
         this.category = category;
