@@ -4,7 +4,6 @@ import com.atvouzx.financetracker.DatabaseManager;
 import com.atvouzx.financetracker.Transaction;
 import com.atvouzx.financetracker.Wallet;
 import io.github.palexdev.materialfx.controls.*;
-import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +17,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class TransactionsController {
@@ -116,15 +113,13 @@ public class TransactionsController {
 
 
         // Periksa tipe kategori (income/expense) dan perbarui saldo dompet
-        /*String categoryType = getCategoryType(category);
+        String categoryType = getCategoryType(category);
         if ("expense".equalsIgnoreCase(categoryType)) {
             amount = -amount;
-        }*/
-        if (category.equals("Income")) {
-            wallet.updateBalance(wallet.getBalance() + amount);
         } else {
-            wallet.updateBalance(wallet.getBalance() - amount);
+            amount = +amount;
         }
+
         updateWalletBalanceInDatabase(wallet);
 
         // Create a new Transaction object

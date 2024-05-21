@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainWindowController {
 
@@ -41,7 +42,7 @@ public class MainWindowController {
 
     private void loadView(String viewName) {
         try {
-            VBox view = FXMLLoader.load(getClass().getResource("/com/atvouzx/financetracker/" + viewName + ".fxml"));
+            VBox view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/atvouzx/financetracker/" + viewName + ".fxml")));
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();

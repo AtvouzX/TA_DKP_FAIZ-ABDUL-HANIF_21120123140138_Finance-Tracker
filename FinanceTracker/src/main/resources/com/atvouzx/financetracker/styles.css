@@ -34,6 +34,10 @@
     -fx-background-color: #93f9b911;
     -fx-text-background-color: purple;
 }
+.table-row-cell:focus {
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: purple;
+}
 .table-row-cell:odd{
     -fx-background-color: #93f9b911;
     -fx-background-insets: 0, 0 0 1 0;
@@ -66,3 +70,41 @@
 .table-view .virtual-flow .scroll-bar:horizontal .thumb {
     -fx-background-color:  linear-gradient(to right, #1dbbdd44, #93f9b944);
 }
+
+.wallet-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);
+}
+
+.wallet-card:hover {
+    -fx-background-color: #F0F0F0;
+}
+
+.wallet-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.wallet-balance {
+    -fx-font-size: 14px;
+    -fx-text-fill: #888888;
+}
+
+.card {
+    -fx-background-color: #FFD700; /* Warna default */
+    -fx-padding: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.5, 0, 0);
+}
+
+.card-green {
+    -fx-background-color: #ADFF2F;
+}
+
+.card-blue {
+    -fx-background-color: #00CED1;
+}
+

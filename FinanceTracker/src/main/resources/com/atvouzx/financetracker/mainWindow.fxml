@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.atvouzx.financetracker.Controller.MainWindowController">
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atvouzx.financetracker.Controller.MainWindowController">
     <left>
-        <VBox>
-            <Label fx:id="dashboardLabel" text="Dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 10; -fx-cursor: hand;"/>
-            <Label fx:id="transactionsLabel" text="Transactions" onMouseClicked="#loadTransactions" style="-fx-padding: 10; -fx-cursor: hand;"/>
-            <Label fx:id="reportsLabel" text="Reports" style="-fx-padding: 10; -fx-cursor: hand;"/>
-            <Label fx:id="settingsLabel" text="Settings" style="-fx-padding: 10; -fx-cursor: hand;"/>
+        <VBox style="-fx-background-color: #7a0ed9; -fx-border-radius: 0 20px 20px 0; -fx-background-radius: 0 10px 10px 0;">
+         <Label style="-fx-text-fill: #FFFFFF;" text="Welcome!">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+         </Label>
+         <VBox alignment="CENTER_LEFT">
+            <children>
+                  <Label fx:id="dashboardLabel" onMouseClicked="#loadDashboard" style="-fx-padding: 10; -fx-cursor: hand; -fx-text-fill: #FFFFFF;" text="Dashboard">
+                  <font>
+                     <Font name="System Bold" size="18.0" />
+                  </font>
+                  <graphic>
+                     <SVGPath content="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" fill="WHITE" stroke="WHITE" strokeWidth="1.5" />
+                  </graphic>
+                  <VBox.margin>
+                     <Insets right="10.0" />
+                  </VBox.margin>
+               </Label>
+                  <Label fx:id="transactionsLabel" onMouseClicked="#loadTransactions" style="-fx-padding: 10; -fx-cursor: hand; -fx-text-fill: #FFFFFF;" text="Transactions">
+                  <font>
+                     <Font name="System Bold" size="18.0" />
+                  </font>
+                  <graphic>
+                     <SVGPath content="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5" fill="WHITE" stroke="WHITE" strokeWidth="1.5" />
+                  </graphic>
+                  <VBox.margin>
+                     <Insets right="10.0" />
+                  </VBox.margin>
+               </Label>
+            </children>
+            <VBox.margin>
+               <Insets left="5.0" />
+            </VBox.margin>
+         </VBox>
         </VBox>
     </left>
     <center>

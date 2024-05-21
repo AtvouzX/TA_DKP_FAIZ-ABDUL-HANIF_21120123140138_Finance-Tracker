@@ -100,9 +100,9 @@
       </VBox>
 
         <!-- Table to display transactions -->
-        <TableView fx:id="transactionsTable" stylesheets="@styles.css">
+        <TableView fx:id="transactionsTable" prefHeight="384.0" prefWidth="674.0" stylesheets="@styles.css">
             <columns>
-                <TableColumn fx:id="amountColumn" sortable="false" text="Amount">
+                <TableColumn fx:id="amountColumn" text="Amount">
                     <cellValueFactory>
                         <PropertyValueFactory property="amount" />
                     </cellValueFactory>
@@ -117,7 +117,7 @@
                         <PropertyValueFactory property="notes" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="dateColumn" sortable="false" text="Date">
+                <TableColumn fx:id="dateColumn" text="Date">
                     <cellValueFactory>
                         <PropertyValueFactory property="date" />
                     </cellValueFactory>
