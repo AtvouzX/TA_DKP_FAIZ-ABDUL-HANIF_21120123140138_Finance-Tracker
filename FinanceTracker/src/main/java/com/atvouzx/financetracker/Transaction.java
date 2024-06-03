@@ -2,12 +2,14 @@ package com.atvouzx.financetracker;
 
 import java.time.LocalDate;
 
-public class Transaction {
+public class Transaction<Id> {
     private double amount;
     private String category;
     private String notes;
     private LocalDate date;
     private Wallet wallet;
+
+
 
     // Constructor, getters, and setters
     public Transaction(double amount, String category, String notes, LocalDate date, Wallet wallet) {
@@ -58,5 +60,6 @@ public class Transaction {
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
     }
+
 
 }

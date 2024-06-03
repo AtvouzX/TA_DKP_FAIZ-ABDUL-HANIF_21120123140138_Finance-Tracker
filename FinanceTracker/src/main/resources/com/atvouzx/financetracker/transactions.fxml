@@ -112,7 +112,7 @@
                         <PropertyValueFactory property="category" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="notesColumn" sortable="false" text="Notes">
+                <TableColumn fx:id="notesColumn" minWidth="-1.0" sortable="false" text="Notes">
                     <cellValueFactory>
                         <PropertyValueFactory property="notes" />
                     </cellValueFactory>
@@ -127,6 +127,7 @@
                         <PropertyValueFactory property="walletName" />
                     </cellValueFactory>
                 </TableColumn>
+
             </columns>
         </TableView>
     </children>

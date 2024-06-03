@@ -265,6 +265,16 @@ public class TransactionsController {
         });
     }
 
+    private void deleteTransactionFromDatabase(int transactionId) {
+        String query = "DELETE FROM transactions WHERE id = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, transactionId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
